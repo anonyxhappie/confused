@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confused?</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 2rem;
+            background: dimgray;
+            height: 100vh;
+            color: #ddd;
+        }
+        button {
+            padding: 4px 16px;
+            background: #ddd;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            margin: 4px 8px;
+            cursor: pointer;
+            transition: background .2s linear;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #aaa;
+        }
+        button.active {
+            background: #fff;
+            border: 1px solid green;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>Confused?</h1>
+        </div>    
+        <div id="breadcrumb"></div>
+        <div class="options" id="options"></div>
+    </div>
+    <script>
+        let optionsContainer = document.querySelector('#options');
+        let breadcrumbContainer = document.querySelector('#breadcrumb');
+
+        const menu = {
+            "veg": {
+                "rajasthani": {
+                    "roti": {
+                        "genhu-ki-roti": {},
+                        "bajra-ki-roti": {},
+                    },
+                    "sabji": {
+                        "papad-ki-sabji": {},
+                        "gatte-ki-sabji": {},
+                        "sangri-ki-sabji": {},
+                    },
+                    "drinks": {
+                        "raabadi": {},
+                        "chhaachh": {},
+                        "lassi": {
+                            "khatti-lassi": {},
+                            "mithi-lassi": {},
+                        },
+                        "chhaachh-raabadi": {},
+                    },
+                    "meal": {
+                        "dal-bati-churma": {},
+                    },
+                },
+                "punjabi": {
+                    "roti": {
+                        "makki-ki-roti": {},
+                    },
+                    "sabji": {
+                        "sarso-da-saag": {},
+                    },
+                    "drinks": {
+                        "lassi": {},
+                    },
+                    "meal": {
+                        "rajma-rice": {},
+                    },
+                },
+                "gujrati": {
+                    "khaman-dhokla": {}
+                },
+                "south-indian": {
+                    "dosa": {},
+                    "idli": {},
+                    "mendu-vada": {},
+                },
+                "street-food": {
+                    "american": {
+                        "pizza": {},
+                        "burger": {},    
+                    },
+                    "indian": {
+                        "gol-gappe": {},
+                        "bhel-puri": {},
+                        "dahi-bhala": {},
+                    },
+                    "chinese": {
+                        "momos": {},
+                        "noodles": {},
+                    },
+                },
+            },
+            "non-veg": {}
+        }
+        
+        let breadcrumb = [];
+        const updateBreadcrumb = function(d, item) {
+            let btn = document.createElement("button");   
+            let span = document.createElement("span");   
+            span.innerHTML = '-->';                  
+            btn.innerHTML = item;                  
+            btn.onclick = function() {
+                console.log('item', item);
+                printOptions(d[item], item); 
+            }
+            breadcrumbContainer.appendChild(btn);  
+            breadcrumbContainer.appendChild(span);  
+        }
+
+        const getOptions = function(d, item) {
+            return Object.keys(d);
+        }
+        const printOptions = function(d, opt) {
+            optionsContainer.innerHTML = "";
+            getOptions(d, opt).forEach((option) => {
+                let btn = document.createElement("button");   
+                btn.innerHTML = option;                  
+                btn.onclick = function() {
+                    console.log('option', option);
+                    breadcrumb.push({option: d[option]});
+                    updateBreadcrumb(d[option], option);
+                    printOptions(d[option], option); 
+                }
+                optionsContainer.appendChild(btn);  
+            });    
+        }
+        printOptions(menu, '')
+
+    </script>
+</body>
+</html>
